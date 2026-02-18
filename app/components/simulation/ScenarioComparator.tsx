@@ -61,8 +61,8 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
             <tr className="border-b border-slate-200">
               <th className="text-left py-2 px-3 font-semibold text-slate-600 w-32"></th>
               <th className="text-center py-2 px-3 font-semibold text-slate-700 bg-slate-50">Actuel</th>
-              <th className="text-center py-2 px-3 font-semibold text-emerald-700 bg-emerald-50/50">Optimiste</th>
-              <th className="text-center py-2 px-3 font-semibold text-amber-700 bg-amber-50/50">Pessimiste</th>
+              <th className="text-center py-2 px-3 font-semibold text-customBlue bg-customBlue/10">Optimiste</th>
+              <th className="text-center py-2 px-3 font-semibold text-customOrange bg-customOrange/10">Pessimiste</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -76,7 +76,7 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
                   max={200}
                   value={optimisteOps.coversPerDay}
                   onChange={(e) => updateOptimiste({ coversPerDay: Number(e.target.value) || 10 })}
-                  className="w-16 text-center border border-slate-200 rounded px-1 py-0.5 text-emerald-800"
+                  className="w-16 text-center border border-slate-200 rounded px-1 py-0.5 text-customBlue"
                 />
               </td>
               <td className="py-2 px-3 text-center">
@@ -86,7 +86,7 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
                   max={200}
                   value={pessimisteOps.coversPerDay}
                   onChange={(e) => updatePessimiste({ coversPerDay: Number(e.target.value) || 10 })}
-                  className="w-16 text-center border border-slate-200 rounded px-1 py-0.5 text-amber-800"
+                  className="w-16 text-center border border-slate-200 rounded px-1 py-0.5 text-customOrange"
                 />
               </td>
             </tr>
@@ -100,7 +100,7 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
                   max={80}
                   value={optimisteOps.ticketAvg}
                   onChange={(e) => updateOptimiste({ ticketAvg: Number(e.target.value) || 15 })}
-                  className="w-16 text-center border border-slate-200 rounded px-1 py-0.5 text-emerald-800"
+                  className="w-16 text-center border border-slate-200 rounded px-1 py-0.5 text-customBlue"
                 />
               </td>
               <td className="py-2 px-3 text-center">
@@ -110,7 +110,7 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
                   max={80}
                   value={pessimisteOps.ticketAvg}
                   onChange={(e) => updatePessimiste({ ticketAvg: Number(e.target.value) || 15 })}
-                  className="w-16 text-center border border-slate-200 rounded px-1 py-0.5 text-amber-800"
+                  className="w-16 text-center border border-slate-200 rounded px-1 py-0.5 text-customOrange"
                 />
               </td>
             </tr>
@@ -124,7 +124,7 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
                   max={45}
                   value={Math.round(optimisteOps.cogsRate * 100)}
                   onChange={(e) => updateOptimiste({ cogsRate: (Number(e.target.value) || 30) / 100 })}
-                  className="w-14 text-center border border-slate-200 rounded px-1 py-0.5 text-emerald-800"
+                  className="w-14 text-center border border-slate-200 rounded px-1 py-0.5 text-customBlue"
                 />
                 %
               </td>
@@ -135,7 +135,7 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
                   max={45}
                   value={Math.round(pessimisteOps.cogsRate * 100)}
                   onChange={(e) => updatePessimiste({ cogsRate: (Number(e.target.value) || 30) / 100 })}
-                  className="w-14 text-center border border-slate-200 rounded px-1 py-0.5 text-amber-800"
+                  className="w-14 text-center border border-slate-200 rounded px-1 py-0.5 text-customOrange"
                 />
                 %
               </td>
@@ -150,7 +150,7 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
                   max={50}
                   value={Math.round(optimisteOps.laborRate * 100)}
                   onChange={(e) => updateOptimiste({ laborRate: (Number(e.target.value) || 35) / 100 })}
-                  className="w-14 text-center border border-slate-200 rounded px-1 py-0.5 text-emerald-800"
+                  className="w-14 text-center border border-slate-200 rounded px-1 py-0.5 text-customBlue"
                 />
                 %
               </td>
@@ -161,20 +161,20 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
                   max={50}
                   value={Math.round(pessimisteOps.laborRate * 100)}
                   onChange={(e) => updatePessimiste({ laborRate: (Number(e.target.value) || 35) / 100 })}
-                  className="w-14 text-center border border-slate-200 rounded px-1 py-0.5 text-amber-800"
+                  className="w-14 text-center border border-slate-200 rounded px-1 py-0.5 text-customOrange"
                 />
                 %
               </td>
             </tr>
             <tr className="font-semibold border-t-2 border-slate-200">
               <td className="py-3 px-3 text-slate-700">Résultat</td>
-              <td className={`py-3 px-3 text-center ${results.profit.amount >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+              <td className={`py-3 px-3 text-center ${results.profit.amount >= 0 ? 'text-customBlue' : 'text-red-700'}`}>
                 {formatCurrency(results.profit.amount)}
               </td>
-              <td className={`py-3 px-3 text-center ${resultsOptimiste.profit.amount >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+              <td className={`py-3 px-3 text-center ${resultsOptimiste.profit.amount >= 0 ? 'text-customBlue' : 'text-red-700'}`}>
                 {formatCurrency(resultsOptimiste.profit.amount)}
               </td>
-              <td className={`py-3 px-3 text-center ${resultsPessimiste.profit.amount >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+              <td className={`py-3 px-3 text-center ${resultsPessimiste.profit.amount >= 0 ? 'text-customBlue' : 'text-red-700'}`}>
                 {formatCurrency(resultsPessimiste.profit.amount)}
               </td>
             </tr>

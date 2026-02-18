@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { DM_Sans } from 'next/font/google';
+import { Rubik } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 
-const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans' });
+const rubik = Rubik({ subsets: ['latin'], variable: '--font-rubik' });
 
 export const metadata: Metadata = {
   title: 'RestoSim - Simulateur de Rentabilité Restaurant',
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={dmSans.variable}>
+    <html lang="fr" className={rubik.variable}>
       <body className="font-sans">
         <Providers>{children}</Providers>
       </body>

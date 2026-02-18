@@ -14,17 +14,17 @@ interface SliderProps {
 }
 
 const colorClasses = {
-  emerald: 'accent-emerald-600 text-emerald-600 bg-emerald-50 border-emerald-200',
+  emerald: 'accent-customBlue text-customBlue bg-customBlue/10 border-customBlue/20',
   rose: 'accent-rose-600 text-rose-600 bg-rose-50 border-rose-200',
-  orange: 'accent-orange-600 text-orange-600 bg-orange-50 border-orange-200',
-  blue: 'accent-blue-600 text-blue-600 bg-blue-50 border-blue-200'
+  orange: 'accent-customOrange text-customOrange bg-customOrange/10 border-customOrange/20',
+  blue: 'accent-customBlue text-customBlue bg-customBlue/50 border-customBlue/20'
 };
 
-export function Slider({ 
-  label, value, min, max, step = 1, unit = '', onChange, color = 'emerald' 
+export function Slider({
+  label, value, min, max, step = 1, unit = '', onChange, color = 'emerald'
 }: SliderProps) {
   const colors = colorClasses[color];
-  
+
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">

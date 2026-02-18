@@ -77,7 +77,7 @@ export function IndifferenceCurve({ ops, loanMonthly, currentProfit, onUpdateOps
                 <path
                   d={pathD}
                   fill="none"
-                  stroke={curve.profit === 0 ? '#b91c1c' : curve.profit > 0 ? '#059669' : '#ea580c'}
+                  stroke={curve.profit === 0 ? '#b91c1c' : curve.profit > 0 ? '#3C607C' : '#FB9F73'}
                   strokeWidth={curve.profit === 0 ? 2.5 : 1.5}
                   strokeDasharray={curve.profit === 0 ? 'none' : '4 2'}
                   opacity={0.9}

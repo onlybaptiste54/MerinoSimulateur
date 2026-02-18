@@ -48,10 +48,10 @@ export function EtSiToggles({ baseProfit, baseRevenue }: EtSiTogglesProps) {
                 type="checkbox"
                 checked={on}
                 onChange={() => toggle(preset.id)}
-                className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                className="rounded border-slate-300 text-customBlue focus:ring-customBlue"
               />
               <span className="text-sm text-slate-700 flex-1">{preset.label}</span>
-              <span className={`text-xs font-medium ${displayNet >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+              <span className={`text-xs font-medium ${displayNet >= 0 ? 'text-customBlue' : 'text-red-600'}`}>
                 {displayNet >= 0 ? '+' : ''}{formatCurrency(displayNet)}
               </span>
             </label>
@@ -63,11 +63,11 @@ export function EtSiToggles({ baseProfit, baseRevenue }: EtSiTogglesProps) {
           <span className="text-sm text-slate-600 w-16">Avant</span>
           <div className="flex-1 h-6 rounded-full bg-slate-100 overflow-hidden flex">
             <div
-              className={baseProfit >= 0 ? 'bg-emerald-500' : 'bg-red-500'}
+              className={baseProfit >= 0 ? 'bg-customBlue' : 'bg-red-500'}
               style={{ width: `${scale(baseProfit)}%` }}
             />
           </div>
-          <span className={`text-sm font-semibold w-20 text-right ${baseProfit >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+          <span className={`text-sm font-semibold w-20 text-right ${baseProfit >= 0 ? 'text-customBlue' : 'text-red-700'}`}>
             {formatCurrency(baseProfit)}
           </span>
         </div>
@@ -75,15 +75,15 @@ export function EtSiToggles({ baseProfit, baseRevenue }: EtSiTogglesProps) {
           <span className="text-sm text-slate-600 w-16">Après</span>
           <div className="flex-1 h-6 rounded-full bg-slate-100 overflow-hidden flex">
             <div
-              className={profitAfter >= 0 ? 'bg-emerald-600' : 'bg-red-600'}
+              className={profitAfter >= 0 ? 'bg-customBlue' : 'bg-red-600'}
               style={{ width: `${scale(profitAfter)}%` }}
             />
           </div>
-          <span className={`text-sm font-semibold w-20 text-right ${profitAfter >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+          <span className={`text-sm font-semibold w-20 text-right ${profitAfter >= 0 ? 'text-customBlue' : 'text-red-700'}`}>
             {formatCurrency(profitAfter)}
           </span>
           {delta !== 0 && (
-            <span className={`text-xs font-medium ${delta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+            <span className={`text-xs font-medium ${delta >= 0 ? 'text-customBlue' : 'text-red-600'}`}>
               ({delta >= 0 ? '+' : ''}{formatCurrency(delta)})
             </span>
           )}

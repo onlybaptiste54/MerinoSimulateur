@@ -28,11 +28,10 @@ export function Dashboard({ ops, results, loan, monthlyPayment, onUpdateOps }: D
       {/* Indicateurs clés — une ligne */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div
-          className={`rounded-xl border-2 p-4 ${
-            isProfitable
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-              : 'bg-red-50 border-red-200 text-red-800'
-          }`}
+          className={`rounded-xl border-2 p-4 ${isProfitable
+            ? 'bg-customBlue/10 border-customBlue/20 text-customBlue'
+            : 'bg-red-50 border-red-200 text-red-800'
+            }`}
         >
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp size={18} />
@@ -41,7 +40,7 @@ export function Dashboard({ ops, results, loan, monthlyPayment, onUpdateOps }: D
           <p className="text-xl font-bold">{formatCurrency(results.profit.amount)}</p>
         </div>
 
-        <div className="rounded-xl border-2 border-amber-200 bg-amber-50 p-4 text-amber-900">
+        <div className="rounded-xl border-2 border-customOrange/20 bg-customOrange/10 p-4 text-customOrange">
           <div className="flex items-center gap-2 mb-1">
             <Target size={18} />
             <span className="text-xs font-semibold uppercase tracking-wide">Seuil (couverts/j)</span>
@@ -90,7 +89,7 @@ export function Dashboard({ ops, results, loan, monthlyPayment, onUpdateOps }: D
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              <tr className="bg-amber-50/50">
+              <tr className="bg-customOrange/5">
                 <td className="py-2.5 px-3 font-medium text-slate-800">Chiffre d'affaires</td>
                 <td className="py-2.5 px-3 text-right font-medium">{formatCurrency(results.revenue.annual)}</td>
                 <td className="py-2.5 px-3 text-right">100%</td>
@@ -110,7 +109,7 @@ export function Dashboard({ ops, results, loan, monthlyPayment, onUpdateOps }: D
                 <td className="py-2 px-3 text-right">-{formatCurrency(results.costs.overhead + results.costs.loan + results.costs.otherFixed)}</td>
                 <td className="py-2 px-3 text-right">{formatPercent((results.costs.overhead + results.costs.loan + results.costs.otherFixed) / results.revenue.annual * 100)}</td>
               </tr>
-              <tr className={`font-bold text-base ${isProfitable ? 'text-emerald-700 bg-emerald-50/50' : 'text-red-700 bg-red-50/50'}`}>
+              <tr className={`font-bold text-base ${isProfitable ? 'text-customBlue bg-customBlue/10' : 'text-red-700 bg-red-50/50'}`}>
                 <td className="py-3 px-3">Résultat net</td>
                 <td className="py-3 px-3 text-right">{formatCurrency(results.profit.amount)}</td>
                 <td className="py-3 px-3 text-right">{formatPercent(results.profit.margin)}</td>

@@ -22,7 +22,7 @@ export function SafetyGauge({ results, coversPerDay }: SafetyGaugeProps) {
   );
 
   const zone = safety < 30 ? 'Danger' : safety < 70 ? 'Surveillance' : safety <= 100 ? 'Confort' : 'Excès';
-  const color = safety < 30 ? '#dc2626' : safety < 70 ? '#ea580c' : safety <= 100 ? '#16a34a' : '#22c55e';
+  const color = safety < 30 ? '#dc2626' : safety < 70 ? '#FB9F73' : safety <= 100 ? '#3C607C' : '#3C607C';
   const needleDeg = Math.min(180, Math.max(0, (safety / 100) * 180)); // 0 = gauche, 180 = droite
   const needleRad = ((180 - needleDeg) * Math.PI) / 180;
 
@@ -35,9 +35,9 @@ export function SafetyGauge({ results, coversPerDay }: SafetyGaugeProps) {
             <defs>
               <linearGradient id="gaugeBg" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#dc2626" />
-                <stop offset="30%" stopColor="#ea580c" />
-                <stop offset="70%" stopColor="#16a34a" />
-                <stop offset="100%" stopColor="#22c55e" />
+                <stop offset="30%" stopColor="#FB9F73" />
+                <stop offset="70%" stopColor="#3C607C" />
+                <stop offset="100%" stopColor="#3C607C" />
               </linearGradient>
             </defs>
             <path

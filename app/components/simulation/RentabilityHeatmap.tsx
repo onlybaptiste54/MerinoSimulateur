@@ -20,9 +20,9 @@ const STEP_C = 5;
 function profitToColor(profit: number): string {
   if (profit < -30000) return 'rgb(127, 29, 29)';   // rouge foncé
   if (profit < -10000) return 'rgb(185, 28, 28)';   // rouge
-  if (profit < 10000) return 'rgb(234, 88, 12)';   // orange
-  if (profit < 30000) return 'rgb(34, 197, 94)';    // vert clair
-  return 'rgb(21, 128, 61)';                         // vert foncé
+  if (profit < 10000) return 'rgb(251, 159, 115)';   // orange (#FB9F73)
+  if (profit < 30000) return 'rgba(60, 96, 124, 0.7)';    // bleu clair (#3C607C avec opacité)
+  return 'rgb(60, 96, 124)';                         // bleu foncé (#3C607C)
 }
 
 interface RentabilityHeatmapProps {
@@ -128,9 +128,9 @@ export function RentabilityHeatmap({ ops, loanMonthly, onUpdateOps }: Rentabilit
       <div className="flex flex-wrap gap-4 mt-2 text-xs text-slate-500">
         <span><span className="inline-block w-3 h-3 rounded bg-red-900 align-middle mr-1" /> Perte &gt;30k€</span>
         <span><span className="inline-block w-3 h-3 rounded bg-red-600 align-middle mr-1" /> Perte 10-30k€</span>
-        <span><span className="inline-block w-3 h-3 rounded bg-orange-500 align-middle mr-1" /> Équilibre ±10k€</span>
-        <span><span className="inline-block w-3 h-3 rounded bg-green-500 align-middle mr-1" /> Profit 10-30k€</span>
-        <span><span className="inline-block w-3 h-3 rounded bg-green-800 align-middle mr-1" /> Profit &gt;30k€</span>
+        <span><span className="inline-block w-3 h-3 rounded bg-customOrange align-middle mr-1" /> Équilibre ±10k€</span>
+        <span><span className="inline-block w-3 h-3 rounded bg-customBlue/70 align-middle mr-1" /> Profit 10-30k€</span>
+        <span><span className="inline-block w-3 h-3 rounded bg-customBlue align-middle mr-1" /> Profit &gt;30k€</span>
       </div>
     </Card>
   );

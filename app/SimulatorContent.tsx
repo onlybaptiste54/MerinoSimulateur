@@ -8,10 +8,11 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useSimulation } from './hooks/useSimulation';
 import { ParameterPanel } from './components/ParameterPanel';
 import { Dashboard } from './components/Dashboard';
-import { ChefHat, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { OperationParams, LoanParams } from './services/calculator.service';
 
 export function SimulatorContent() {
@@ -74,7 +75,7 @@ export function SimulatorContent() {
     return (
       <div className="min-h-screen bg-slate-100 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-amber-600 mx-auto mb-4" />
+          <Loader2 className="w-10 h-10 animate-spin text-customOrange mx-auto mb-4" />
           <p className="text-slate-600 font-medium">Chargement de la simulation…</p>
         </div>
       </div>
@@ -89,7 +90,7 @@ export function SimulatorContent() {
           <p className="text-slate-600 text-sm mb-6">{error}</p>
           <a
             href="/"
-            className="inline-block bg-amber-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-amber-700 transition-colors"
+            className="inline-block bg-customOrange text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-opacity-90 transition-colors"
           >
             Retour au simulateur
           </a>
@@ -103,25 +104,29 @@ export function SimulatorContent() {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-amber-500 text-white p-2 rounded-xl">
-              <ChefHat size={22} />
-            </div>
+            <Image
+              src="/logo_merino_pro.png"
+              alt="Logo"
+              width={40}
+              height={40}
+              className="h-10 w-auto"
+            />
             <div>
               <h1 className="text-lg font-bold text-slate-900">
-                {simulationData?.name || 'RestoSim'}
+                {simulationData?.name || 'Simulateur de rentabilité'}
               </h1>
               <p className="text-xs text-slate-500">
-                {isReadOnly ? 'Vue partagée (24h)' : 'Simulateur de rentabilité'}
+                {isReadOnly ? 'Vue partagée (24h)' : 'Restauration'}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             {isReadOnly && (
-              <span className="bg-sky-100 text-sky-700 px-3 py-1.5 rounded-lg text-xs font-medium">
+              <span className="bg-customBlue/10 text-customBlue px-3 py-1.5 rounded-lg text-xs font-medium">
                 Accès temporaire
               </span>
             )}
-            <span className="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-lg text-sm font-semibold">
+            <span className="bg-customOrange/20 text-customOrange px-3 py-1.5 rounded-lg text-sm font-semibold">
               MCV {results.mcv.unit.toFixed(1)} €/couvert
             </span>
           </div>
@@ -130,7 +135,7 @@ export function SimulatorContent() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {isReadOnly && (
-          <div className="mb-6 bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 text-sm text-sky-800">
+          <div className="mb-6 bg-customBlue/10 border border-customBlue/20 rounded-xl px-4 py-3 text-sm text-customBlue">
             Simulation partagée par votre conseiller — lecture seule.
           </div>
         )}
@@ -141,8 +146,8 @@ export function SimulatorContent() {
             ops={ops}
             loan={loan}
             monthlyPayment={monthlyPayment}
-            onUpdateOps={isReadOnly ? () => {} : updateOps}
-            onUpdateLoan={isReadOnly ? () => {} : updateLoan}
+            onUpdateOps={isReadOnly ? () => { } : updateOps}
+            onUpdateLoan={isReadOnly ? () => { } : updateLoan}
             readOnly={isReadOnly}
           />
         </section>
@@ -154,7 +159,7 @@ export function SimulatorContent() {
             results={results}
             loan={loan}
             monthlyPayment={monthlyPayment}
-            onUpdateOps={isReadOnly ? () => {} : updateOps}
+            onUpdateOps={isReadOnly ? () => { } : updateOps}
           />
         </section>
       </main>

@@ -32,7 +32,7 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
             min={10}
             max={200}
             step={5}
-            onChange={readOnly ? () => {} : (v) => onUpdateOps({ coversPerDay: v })}
+            onChange={readOnly ? () => { } : (v) => onUpdateOps({ coversPerDay: v })}
           />
           <Slider
             label="Ticket moyen (€)"
@@ -40,14 +40,14 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
             min={15}
             max={100}
             unit=" €"
-            onChange={readOnly ? () => {} : (v) => onUpdateOps({ ticketAvg: v })}
+            onChange={readOnly ? () => { } : (v) => onUpdateOps({ ticketAvg: v })}
           />
           <Slider
             label="Jours ouverts / an"
             value={ops.daysOpen}
             min={200}
             max={365}
-            onChange={readOnly ? () => {} : (v) => onUpdateOps({ daysOpen: v })}
+            onChange={readOnly ? () => { } : (v) => onUpdateOps({ daysOpen: v })}
           />
         </div>
 
@@ -61,7 +61,7 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
             max={45}
             unit="%"
             color="rose"
-            onChange={readOnly ? () => {} : (v) => onUpdateOps({ cogsRate: v / 100 })}
+            onChange={readOnly ? () => { } : (v) => onUpdateOps({ cogsRate: v / 100 })}
           />
           <Slider
             label="Masse salariale"
@@ -70,7 +70,7 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
             max={50}
             unit="%"
             color="orange"
-            onChange={readOnly ? () => {} : (v) => onUpdateOps({ laborRate: v / 100 })}
+            onChange={readOnly ? () => { } : (v) => onUpdateOps({ laborRate: v / 100 })}
           />
           <Slider
             label="Frais généraux"
@@ -79,7 +79,7 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
             max={25}
             unit="%"
             color="orange"
-            onChange={readOnly ? () => {} : (v) => onUpdateOps({ overheadRate: v / 100 })}
+            onChange={readOnly ? () => { } : (v) => onUpdateOps({ overheadRate: v / 100 })}
           />
           <p className="text-xs text-slate-500">40 % personnel = variable.</p>
         </div>
@@ -97,7 +97,7 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
                 value={loan.amount}
                 onChange={(e) => { if (!readOnly) onUpdateLoan({ amount: Number(e.target.value) || 0 }); }}
                 readOnly={readOnly}
-                className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 read-only:bg-slate-50"
+                className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
               />
             </div>
             <div>
@@ -108,7 +108,7 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
                 step="0.1"
                 onChange={(e) => { if (!readOnly) onUpdateLoan({ rate: Number(e.target.value) || 0 }); }}
                 readOnly={readOnly}
-                className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 read-only:bg-slate-50"
+                className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
               />
             </div>
           </div>
@@ -118,12 +118,12 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
             min={1}
             max={15}
             unit=" an"
-            onChange={readOnly ? () => {} : (v) => onUpdateLoan({ duration: v })}
+            onChange={readOnly ? () => { } : (v) => onUpdateLoan({ duration: v })}
           />
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+          <div className="bg-customOrange/10 border border-customOrange/20 rounded-lg p-3">
             <div className="flex justify-between text-sm">
               <span className="text-slate-600">Mensualité</span>
-              <span className="font-bold text-amber-800">{formatCurrency(monthlyPayment)}</span>
+              <span className="font-bold text-customOrange">{formatCurrency(monthlyPayment)}</span>
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
               onChange={(e) => { if (!readOnly) onUpdateOps({ otherFixedCosts: Number(e.target.value) || 0 }); }}
               readOnly={readOnly}
               placeholder="Loyer, assurances…"
-              className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 read-only:bg-slate-50"
+              className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
             />
           </div>
         </div>

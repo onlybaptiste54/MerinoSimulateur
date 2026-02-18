@@ -16,6 +16,8 @@ const config: Config = {
           600: '#0284c7',
           700: '#0369a1',
         },
+        customBlue: '#3C607C',
+        customOrange: '#FB9F73',
       },
     },
   },
