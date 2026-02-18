@@ -1,0 +1,16 @@
+services:
+  merino:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      # Bind mount local — la DB SQLite (avec les users) reste sur l'hôte
+      - ./data:/app/data
+    environment:
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - DATABASE_URL=file:./data/merino.db
+      - APP_URL=${APP_URL:-http://localhost:3000}
+    restart: unless-stopped

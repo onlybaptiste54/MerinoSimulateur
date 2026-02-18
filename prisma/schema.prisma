@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  password      String
+  name          String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  simulations   Simulation[]
+}
+
+model Simulation {
+  id                String         @id @default(cuid())
+  name              String
+  userId            String
+  user              User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Paramètres opérationnels
+  couvertsParJour   Int            @default(50)
+  ticketMoyen       Float          @default(25.0)
+  joursOuverts      Int            @default(300)
+  
+  // Coûts (% du CA)
+  foodCost          Float          @default(30.0)
+  masseSalariale    Float          @default(35.0)
+  fraisGeneraux     Float          @default(15.0)
+  
+  // Financement
+  capitalEmprunte    Float          @default(0)
+  tauxInteret       Float          @default(3.5)
+  dureeEmprunt      Int            @default(10)
+  autresFixes       Float          @default(0)
+  
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  accessTokens      AccessToken[]
+}
+
+model AccessToken {
+  id            String      @id @default(cuid())
+  token         String      @unique
+  simulationId  String
+  simulation    Simulation  @relation(fields: [simulationId], references: [id], onDelete: Cascade)
+  expiresAt     DateTime
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+}
