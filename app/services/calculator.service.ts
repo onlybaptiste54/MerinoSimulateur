@@ -272,15 +272,9 @@ export function profitForTicketCovers(
   baseOps: OperationParams,
   loanMonthly: number
 ): number {
-  const daysOpen = baseOps.daysOpen;
-  const ca = covers * ticket * daysOpen;
-  const costFood = ca * baseOps.cogsRate;
-  const costLaborTotal = ca * baseOps.laborRate;
-  const costLaborVariable = costLaborTotal * 0.4;
-  const costLaborFixed = costLaborTotal * 0.6;
-  const costOverhead = ca * baseOps.overheadRate;
-  const costLoan = loanMonthly * 12;
-  const totalCosts = costFood + costLaborTotal + costOverhead + costLoan + baseOps.otherFixedCosts;
+  const ca = covers * ticket * baseOps.daysOpen;
+  const totalCosts = ca * (baseOps.cogsRate + baseOps.laborRate + baseOps.overheadRate)
+    + loanMonthly * 12 + baseOps.otherFixedCosts;
   return ca - totalCosts;
 }
 
@@ -329,8 +323,13 @@ export function generateIndifferenceCurves(
   profitLevels: number[], // ex [0, 20000, 40000]
   ticketRange: number[]    // ex [18, 22, 26, 30, 35, 40]
 ): { profit: number; points: { ticket: number; covers: number }[] }[] {
-  const chargesFixes = baseOps.otherFixedCosts + loanMonthly * 12;
-  const rateVariable = baseOps.cogsRate + baseOps.laborRate + baseOps.overheadRate; // tout le reste varie avec CA
+  // Cohérent avec calculateProfitability :
+  // - coûts variables = cogsRate + laborRate×0.4 (sur le CA variable)
+  // - coûts semi-fixes = (laborRate×0.6 + overheadRate) × CA_base (calculés au niveau d'activité actuel)
+  const baseRevenue = baseOps.coversPerDay * baseOps.ticketAvg * baseOps.daysOpen;
+  const rateVariable = baseOps.cogsRate + baseOps.laborRate * 0.4;
+  const chargesFixes = baseRevenue * (baseOps.laborRate * 0.6 + baseOps.overheadRate)
+    + baseOps.otherFixedCosts + loanMonthly * 12;
   if (rateVariable >= 1) return profitLevels.map((p) => ({ profit: p, points: [] }));
 
   return profitLevels.map((targetProfit) => {
