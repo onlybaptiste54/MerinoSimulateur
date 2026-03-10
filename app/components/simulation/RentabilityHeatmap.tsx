@@ -87,7 +87,7 @@ export function RentabilityHeatmap({ ops, loanMonthly, onUpdateOps }: Rentabilit
   const handlePointerLeave = useCallback(() => setDragging(false), []);
 
   return (
-    <Card title="Carte de rentabilité" icon={<Map size={18} />}>
+    <Card title="Carte de rentabilité" icon={<Map size={18} />} info="Visualise la rentabilité pour toutes les combinaisons de ticket moyen et de couverts/jour. Zone bleue = profit, zone orange/rouge = perte. Glissez le point blanc pour positionner votre scénario.">
       <p className="text-slate-600 text-sm mb-3">Glissez le point blanc pour modifier ticket moyen et couverts/jour.</p>
       <div
         ref={containerRef}

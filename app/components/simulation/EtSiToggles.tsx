@@ -36,7 +36,7 @@ export function EtSiToggles({ baseProfit, baseRevenue, ops }: EtSiTogglesProps) 
   const scale = (v: number) => (v / maxAbs) * 50 + 50; // 0 → 50%, max → 100%
 
   return (
-    <Card title="Et si…" icon={<HelpCircle size={18} />}>
+    <Card title="Et si…" icon={<HelpCircle size={18} />} info="Simule l'impact de décisions stratégiques sur votre résultat net. Cochez une ou plusieurs options pour voir comment votre profit évoluerait. Les montants affichés tiennent compte de votre structure de coûts actuelle.">
       <p className="text-slate-600 text-sm mb-4">Activez une option pour voir l'impact sur le résultat.</p>
       <div className="space-y-3">
         {ET_SI_PRESETS.map((preset) => {

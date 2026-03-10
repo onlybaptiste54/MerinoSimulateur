@@ -4,7 +4,7 @@
 
 'use client';
 
-import { useMemo, useCallback, useRef } from 'react';
+import { useMemo, useCallback, useRef, useState } from 'react';
 import { Compass } from 'lucide-react';
 import { Card } from '../ui/Card';
 import {
@@ -27,8 +27,16 @@ interface IndifferenceCurveProps {
   onUpdateOps: (u: Partial<OperationParams>) => void;
 }
 
+function shortProfit(p: number): string {
+  if (p === 0) return '0€';
+  if (Math.abs(p) >= 1000) return `${p / 1000 >= 0 ? '+' : ''}${Math.round(p / 1000)}k€`;
+  return `${p}€`;
+}
+
 export function IndifferenceCurve({ ops, loanMonthly, currentProfit, onUpdateOps }: IndifferenceCurveProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [dragging, setDragging] = useState(false);
 
   const curves = useMemo(
     () => generateIndifferenceCurves(ops, loanMonthly, [0, 10000, 20000, 30000, 50000], TICKET_RANGE),
@@ -37,7 +45,7 @@ export function IndifferenceCurve({ ops, loanMonthly, currentProfit, onUpdateOps
 
   const width = 500;
   const height = 320;
-  const padding = { left: 50, right: 20, top: 20, bottom: 40 };
+  const padding = { left: 50, right: 55, top: 20, bottom: 40 };
 
   const xScale = (t: number) => padding.left + ((t - TICKET_MIN) / (TICKET_MAX - TICKET_MIN)) * (width - padding.left - padding.right);
   const yScale = (c: number) => padding.top + ((COVERS_MAX - c) / (COVERS_MAX - COVERS_MIN)) * (height - padding.top - padding.bottom);
@@ -45,28 +53,53 @@ export function IndifferenceCurve({ ops, loanMonthly, currentProfit, onUpdateOps
   const currentX = xScale(ops.ticketAvg);
   const currentY = yScale(ops.coversPerDay);
 
-  const handleSvgClick = useCallback(
-    (e: React.MouseEvent<SVGSVGElement>) => {
-      const svg = e.currentTarget;
-      const rect = svg.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const ticket = TICKET_MIN + ((x - padding.left) / (width - padding.left - padding.right)) * (TICKET_MAX - TICKET_MIN);
-      const covers = COVERS_MAX - ((y - padding.top) / (height - padding.top - padding.bottom)) * (COVERS_MAX - COVERS_MIN);
-      const t = Math.round(Math.max(TICKET_MIN, Math.min(TICKET_MAX, ticket)));
-      const c = Math.round(Math.max(COVERS_MIN, Math.min(COVERS_MAX, covers)));
-      onUpdateOps({ ticketAvg: t, coversPerDay: c });
-    },
-    [onUpdateOps]
-  );
+  const posFromEvent = useCallback((clientX: number, clientY: number) => {
+    const svg = svgRef.current;
+    if (!svg) return null;
+    const rect = svg.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    const ticket = TICKET_MIN + ((x - padding.left) / (width - padding.left - padding.right)) * (TICKET_MAX - TICKET_MIN);
+    const covers = COVERS_MAX - ((y - padding.top) / (height - padding.top - padding.bottom)) * (COVERS_MAX - COVERS_MIN);
+    return {
+      t: Math.round(Math.max(TICKET_MIN, Math.min(TICKET_MAX, ticket))),
+      c: Math.round(Math.max(COVERS_MIN, Math.min(COVERS_MAX, covers))),
+    };
+  }, []);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
+    e.preventDefault();
+    setDragging(true);
+    const pos = posFromEvent(e.clientX, e.clientY);
+    if (pos) onUpdateOps({ ticketAvg: pos.t, coversPerDay: pos.c });
+  }, [posFromEvent, onUpdateOps]);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
+    if (!dragging) return;
+    const pos = posFromEvent(e.clientX, e.clientY);
+    if (pos) onUpdateOps({ ticketAvg: pos.t, coversPerDay: pos.c });
+  }, [dragging, posFromEvent, onUpdateOps]);
+
+  const handlePointerUp = useCallback(() => setDragging(false), []);
 
   return (
-    <Card title="Courbe d'indifférence Prix/Volume" icon={<Compass size={18} />}>
+    <Card title="Courbe d'indifférence Prix/Volume" icon={<Compass size={18} />} info="Chaque courbe regroupe toutes les combinaisons ticket × couverts qui donnent le même résultat net. La courbe rouge = seuil de rentabilité (profit = 0). Les courbes bleues = niveaux de profit croissants. Cliquez ou glissez pour repositionner votre scénario.">
       <p className="text-slate-600 text-sm mb-3">
         Même résultat net pour différentes combinaisons. Cliquez sur une zone pour déplacer votre position.
       </p>
       <div ref={containerRef} className="overflow-x-auto">
-        <svg width={width} height={height} className="border border-slate-200 rounded-lg bg-white" onClick={handleSvgClick}>
+        <svg
+          ref={svgRef}
+          width={width}
+          height={height}
+          className="border border-slate-200 rounded-lg bg-white cursor-crosshair"
+          style={{ touchAction: 'none' }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+        >
           {curves.map((curve, i) => {
             if (curve.points.length < 2) return null;
             const pathD = curve.points
@@ -85,11 +118,12 @@ export function IndifferenceCurve({ ops, loanMonthly, currentProfit, onUpdateOps
                 {curve.points.length > 0 && (
                   <text
                     x={xScale(curve.points[curve.points.length - 1].ticket) + 6}
-                    y={yScale(curve.points[curve.points.length - 1].covers)}
+                    y={yScale(curve.points[curve.points.length - 1].covers) + i * 1}
                     fontSize={10}
-                    fill="#64748b"
+                    fill={curve.profit === 0 ? '#b91c1c' : '#64748b'}
+                    fontWeight={curve.profit === 0 ? 'bold' : 'normal'}
                   >
-                    {formatCurrency(curve.profit)}
+                    {shortProfit(curve.profit)}
                   </text>
                 )}
               </g>

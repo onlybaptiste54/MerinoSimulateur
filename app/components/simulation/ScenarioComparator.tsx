@@ -53,7 +53,7 @@ export function ScenarioComparator({ ops, loan, results, monthlyPayment }: Scena
   const updatePessimiste = (updates: Partial<OperationParams>) => setPessimisteOps((p) => ({ ...p, ...updates }));
 
   return (
-    <Card title="Comparateur de scénarios" icon={<Columns size={18} />}>
+    <Card title="Comparateur de scénarios" icon={<Columns size={18} />} info="Compare votre scénario actuel avec un scénario alternatif que vous construisez librement. Modifiez les paramètres du scénario B pour visualiser l'écart de résultat net côte à côte.">
       <p className="text-slate-600 text-sm mb-4">Modifiez une colonne pour recalculer uniquement ce scénario.</p>
       <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse">

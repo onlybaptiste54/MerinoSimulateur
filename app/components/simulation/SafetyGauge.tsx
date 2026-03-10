@@ -27,7 +27,7 @@ export function SafetyGauge({ results, coversPerDay }: SafetyGaugeProps) {
   const needleRad = ((180 - needleDeg) * Math.PI) / 180;
 
   return (
-    <Card title="Jauge de sécurité" icon={<Gauge size={18} />}>
+    <Card title="Jauge de sécurité" icon={<Gauge size={18} />} info="Mesure l'écart entre votre activité actuelle et le seuil de rentabilité. 0% = vous êtes exactement à l'équilibre. 100% = vous faites 2× le minimum requis. Zone rouge = danger, orange = surveillance, bleu = confort.">
       <p className="text-slate-600 text-sm mb-4">Distance au seuil de rentabilité. L'aiguille bouge en temps réel.</p>
       <div className="flex flex-col items-center">
         <div className="relative w-64 h-36">
