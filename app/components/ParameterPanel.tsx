@@ -26,61 +26,83 @@ export function ParameterPanel({ ops, loan, monthlyPayment, onUpdateOps, onUpdat
         {/* Activité */}
         <div className="space-y-4">
           <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500">Activité</h4>
-          <Slider
-            label="Couverts / jour"
-            value={ops.coversPerDay}
-            min={10}
-            max={200}
-            step={5}
-            onChange={readOnly ? () => { } : (v) => onUpdateOps({ coversPerDay: v })}
-          />
-          <Slider
-            label="Ticket moyen (€)"
-            value={ops.ticketAvg}
-            min={15}
-            max={100}
-            unit=" €"
-            onChange={readOnly ? () => { } : (v) => onUpdateOps({ ticketAvg: v })}
-          />
-          <Slider
-            label="Jours ouverts / an"
-            value={ops.daysOpen}
-            min={200}
-            max={365}
-            onChange={readOnly ? () => { } : (v) => onUpdateOps({ daysOpen: v })}
-          />
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">Couverts / jour</label>
+            <input
+              type="number"
+              value={ops.coversPerDay}
+              min={0}
+              max={500}
+              onChange={(e) => { if (!readOnly) onUpdateOps({ coversPerDay: Math.min(500, Math.max(0, Number(e.target.value) || 0)) }); }}
+              readOnly={readOnly}
+              className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">Ticket moyen (€)</label>
+            <input
+              type="number"
+              value={ops.ticketAvg}
+              min={0}
+              max={200}
+              onChange={(e) => { if (!readOnly) onUpdateOps({ ticketAvg: Math.min(200, Math.max(0, Number(e.target.value) || 0)) }); }}
+              readOnly={readOnly}
+              className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">Jours ouverts / an</label>
+            <input
+              type="number"
+              value={ops.daysOpen}
+              min={0}
+              max={365}
+              onChange={(e) => { if (!readOnly) onUpdateOps({ daysOpen: Math.min(365, Math.max(0, Number(e.target.value) || 0)) }); }}
+              readOnly={readOnly}
+              className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
+            />
+          </div>
         </div>
 
         {/* Coûts % */}
         <div className="space-y-4">
           <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500">Coûts (% CA)</h4>
-          <Slider
-            label="Food cost"
-            value={Math.round(ops.cogsRate * 100)}
-            min={20}
-            max={45}
-            unit="%"
-            color="rose"
-            onChange={readOnly ? () => { } : (v) => onUpdateOps({ cogsRate: v / 100 })}
-          />
-          <Slider
-            label="Masse salariale"
-            value={Math.round(ops.laborRate * 100)}
-            min={25}
-            max={50}
-            unit="%"
-            color="orange"
-            onChange={readOnly ? () => { } : (v) => onUpdateOps({ laborRate: v / 100 })}
-          />
-          <Slider
-            label="Frais généraux"
-            value={Math.round(ops.overheadRate * 100)}
-            min={10}
-            max={25}
-            unit="%"
-            color="orange"
-            onChange={readOnly ? () => { } : (v) => onUpdateOps({ overheadRate: v / 100 })}
-          />
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">Matières premières (%)</label>
+            <input
+              type="number"
+              value={Math.round(ops.cogsRate * 100)}
+              min={0}
+              max={100}
+              onChange={(e) => { if (!readOnly) onUpdateOps({ cogsRate: Math.min(100, Math.max(0, Number(e.target.value) || 0)) / 100 }); }}
+              readOnly={readOnly}
+              className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">Salaires (%)</label>
+            <input
+              type="number"
+              value={Math.round(ops.laborRate * 100)}
+              min={0}
+              max={100}
+              onChange={(e) => { if (!readOnly) onUpdateOps({ laborRate: Math.min(100, Math.max(0, Number(e.target.value) || 0)) / 100 }); }}
+              readOnly={readOnly}
+              className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">Frais généraux (%)</label>
+            <input
+              type="number"
+              value={Math.round(ops.overheadRate * 100)}
+              min={0}
+              max={100}
+              onChange={(e) => { if (!readOnly) onUpdateOps({ overheadRate: Math.min(100, Math.max(0, Number(e.target.value) || 0)) / 100 }); }}
+              readOnly={readOnly}
+              className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange read-only:bg-slate-50"
+            />
+          </div>
           <p className="text-xs text-slate-500">40 % personnel = variable.</p>
         </div>
 
