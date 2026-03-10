@@ -125,6 +125,30 @@ export function RentabilityHeatmap({ ops, loanMonthly, onUpdateOps }: Rentabilit
           <span>Couverts/jour ↑</span>
         </div>
       </div>
+      <div className="flex gap-4 mt-3">
+        <div className="flex-1">
+          <label className="block text-xs font-medium text-slate-600 mb-1">Couverts / jour</label>
+          <input
+            type="number"
+            value={ops.coversPerDay}
+            min={COVERS_MIN}
+            max={COVERS_MAX}
+            onChange={(e) => onUpdateOps({ coversPerDay: Math.min(COVERS_MAX, Math.max(COVERS_MIN, Number(e.target.value) || COVERS_MIN)) })}
+            className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange"
+          />
+        </div>
+        <div className="flex-1">
+          <label className="block text-xs font-medium text-slate-600 mb-1">Ticket moyen (€)</label>
+          <input
+            type="number"
+            value={ops.ticketAvg}
+            min={TICKET_MIN}
+            max={TICKET_MAX}
+            onChange={(e) => onUpdateOps({ ticketAvg: Math.min(TICKET_MAX, Math.max(TICKET_MIN, Number(e.target.value) || TICKET_MIN)) })}
+            className="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-customOrange focus:border-customOrange"
+          />
+        </div>
+      </div>
       <div className="flex flex-wrap gap-4 mt-2 text-xs text-slate-500">
         <span><span className="inline-block w-3 h-3 rounded bg-red-900 align-middle mr-1" /> Perte &gt;30k€</span>
         <span><span className="inline-block w-3 h-3 rounded bg-red-600 align-middle mr-1" /> Perte 10-30k€</span>

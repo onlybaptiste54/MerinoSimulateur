@@ -365,14 +365,17 @@ export const ET_SI_PRESETS: EtSiToggle[] = [
 export function applyEtSiToggles(
   baseProfit: number,
   baseRevenue: number,
-  toggles: { id: string; on: boolean }[]
+  toggles: { id: string; on: boolean }[],
+  variableRate: number
 ): { profitAfter: number; delta: number } {
   let delta = 0;
   for (const t of toggles) {
     if (!t.on) continue;
     const p = ET_SI_PRESETS.find((x) => x.id === t.id);
     if (!p) continue;
-    const rev = p.revenueDelta > 0 && p.revenueDelta < 1 ? baseRevenue * p.revenueDelta : p.revenueDelta;
+    const rev = p.revenueDelta > 0 && p.revenueDelta < 1
+      ? baseRevenue * p.revenueDelta * (1 - variableRate)
+      : p.revenueDelta;
     delta += rev - p.costsDelta;
   }
   return { profitAfter: baseProfit + delta, delta };

@@ -49,7 +49,7 @@ export function Charts({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <EtSiToggles baseProfit={results.profit.amount} baseRevenue={results.revenue.annual} />
+        <EtSiToggles baseProfit={results.profit.amount} baseRevenue={results.revenue.annual} ops={ops} />
         <IndifferenceCurve
           ops={ops}
           loanMonthly={monthlyPayment}

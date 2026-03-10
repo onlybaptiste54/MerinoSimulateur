@@ -8,21 +8,24 @@ import { useState, useMemo } from 'react';
 import { HelpCircle } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { formatCurrency } from '../../services/format.service';
-import { ET_SI_PRESETS, applyEtSiToggles } from '../../services/calculator.service';
+import { ET_SI_PRESETS, applyEtSiToggles, OperationParams } from '../../services/calculator.service';
 
 interface EtSiTogglesProps {
   baseProfit: number;
   baseRevenue: number;
+  ops: OperationParams;
 }
 
-export function EtSiToggles({ baseProfit, baseRevenue }: EtSiTogglesProps) {
+export function EtSiToggles({ baseProfit, baseRevenue, ops }: EtSiTogglesProps) {
   const [toggles, setToggles] = useState<{ id: string; on: boolean }[]>(
     ET_SI_PRESETS.map((p) => ({ id: p.id, on: false }))
   );
 
+  const variableRate = ops.cogsRate + ops.laborRate + ops.overheadRate;
+
   const { profitAfter, delta } = useMemo(
-    () => applyEtSiToggles(baseProfit, baseRevenue, toggles),
-    [baseProfit, baseRevenue, toggles]
+    () => applyEtSiToggles(baseProfit, baseRevenue, toggles, variableRate),
+    [baseProfit, baseRevenue, toggles, variableRate]
   );
 
   const toggle = (id: string) => {
@@ -40,7 +43,7 @@ export function EtSiToggles({ baseProfit, baseRevenue }: EtSiTogglesProps) {
           const on = toggles.find((t) => t.id === preset.id)?.on ?? false;
           const net = preset.revenueDelta - preset.costsDelta;
           const displayNet = preset.revenueDelta > 0 && preset.revenueDelta < 1
-            ? baseRevenue * preset.revenueDelta - preset.costsDelta
+            ? baseRevenue * preset.revenueDelta * (1 - variableRate) - preset.costsDelta
             : net;
           return (
             <label key={preset.id} className="flex items-center gap-3 cursor-pointer">
@@ -58,35 +61,37 @@ export function EtSiToggles({ baseProfit, baseRevenue }: EtSiTogglesProps) {
           );
         })}
       </div>
-      <div className="mt-6 pt-4 border-t border-slate-200">
-        <div className="flex items-center gap-4 mb-2">
-          <span className="text-sm text-slate-600 w-16">Avant</span>
-          <div className="flex-1 h-6 rounded-full bg-slate-100 overflow-hidden flex">
+      <div className="mt-6 pt-4 border-t border-slate-200 grid grid-cols-2 gap-3">
+        <div className="bg-slate-50 rounded-xl p-3">
+          <p className="text-xs text-slate-500 mb-1">Avant</p>
+          <p className={`text-xl font-bold ${baseProfit >= 0 ? 'text-customBlue' : 'text-red-600'}`}>
+            {formatCurrency(baseProfit)}
+          </p>
+          <div className="mt-2 h-1.5 rounded-full bg-slate-200 overflow-hidden">
             <div
-              className={baseProfit >= 0 ? 'bg-customBlue' : 'bg-red-500'}
+              className={`h-full rounded-full ${baseProfit >= 0 ? 'bg-customBlue' : 'bg-red-500'}`}
               style={{ width: `${scale(baseProfit)}%` }}
             />
           </div>
-          <span className={`text-sm font-semibold w-20 text-right ${baseProfit >= 0 ? 'text-customBlue' : 'text-red-700'}`}>
-            {formatCurrency(baseProfit)}
-          </span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-slate-600 w-16">Après</span>
-          <div className="flex-1 h-6 rounded-full bg-slate-100 overflow-hidden flex">
+        <div className="bg-slate-50 rounded-xl p-3">
+          <p className="text-xs text-slate-500 mb-1">
+            Après
+            {delta !== 0 && (
+              <span className={`ml-2 font-semibold ${delta >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                {delta >= 0 ? '▲' : '▼'} {delta >= 0 ? '+' : ''}{formatCurrency(delta)}
+              </span>
+            )}
+          </p>
+          <p className={`text-xl font-bold ${profitAfter >= 0 ? 'text-customBlue' : 'text-red-600'}`}>
+            {formatCurrency(profitAfter)}
+          </p>
+          <div className="mt-2 h-1.5 rounded-full bg-slate-200 overflow-hidden">
             <div
-              className={profitAfter >= 0 ? 'bg-customBlue' : 'bg-red-600'}
+              className={`h-full rounded-full ${profitAfter >= 0 ? 'bg-customBlue' : 'bg-red-500'}`}
               style={{ width: `${scale(profitAfter)}%` }}
             />
           </div>
-          <span className={`text-sm font-semibold w-20 text-right ${profitAfter >= 0 ? 'text-customBlue' : 'text-red-700'}`}>
-            {formatCurrency(profitAfter)}
-          </span>
-          {delta !== 0 && (
-            <span className={`text-xs font-medium ${delta >= 0 ? 'text-customBlue' : 'text-red-600'}`}>
-              ({delta >= 0 ? '+' : ''}{formatCurrency(delta)})
-            </span>
-          )}
         </div>
       </div>
     </Card>
